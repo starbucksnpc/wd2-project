@@ -3,6 +3,7 @@
 
 <?php
 
+//these are should be inside submit.......
 // Function to safely construct the file upload path
 function file_upload_path($original_filename, $upload_subfolder_name = 'images')
 {
