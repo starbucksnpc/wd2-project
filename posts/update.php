@@ -3,46 +3,7 @@
 
 <?php
 
-//these are should be inside submit.......
-// Function to safely construct the file upload path
-function file_upload_path($original_filename, $upload_subfolder_name = 'images')
-{
-  $current_folder = dirname(__FILE__);
-  $path_segments = [$current_folder, $upload_subfolder_name, basename($original_filename)];
-  return join(DIRECTORY_SEPARATOR, $path_segments);
-}
 
-// Function to check if the file is an image
-function file_is_an_image($temporary_path, $new_path) {
-  $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
-  
-  $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
-
-  $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
-
-  return $file_extension_is_valid;
-}
-
-// Check if an image is uploaded
-$image_upload_detected = isset($_FILES['img']) && ($_FILES['img']['error'] === 0);
-$upload_error_detected = isset($_FILES['img']) && ($_FILES['img']['error'] > 0);
-
-// If an image is uploaded
-if ($image_upload_detected) {
-  // Obtain image information
-  $image_filename       = $_FILES['img']['name'];
-  $temporary_image_path = $_FILES['img']['tmp_name'];
-  $new_image_path       = file_upload_path($image_filename);
-  
-  // Check if the image is valid, and if so, upload it
-  if (file_is_an_image($temporary_image_path, $new_image_path)) {
-    move_uploaded_file($temporary_image_path, $new_image_path);
-  } else {
-    // Handle invalid image error
-    echo "The uploaded file is not a valid image. Try again.";
-    exit(); // Exit script as there is no uploaded image
-  }
-}
 
 if (isset($_GET['upd_id'])) {
   $id = $_GET['upd_id'];
@@ -52,35 +13,90 @@ if (isset($_GET['upd_id'])) {
   $select->execute();
   $rows = $select->fetch(PDO::FETCH_OBJ);
 
+  //categories
+  $categories = $conn->query("SELECT * FROM categories");
+  $categories->execute();
+  $category = $categories->fetchAll(PDO::FETCH_OBJ);
+
+
+  // update data
   if ($_SESSION['user_id'] !== $rows->user_id) {
     header('location: http://localhost:31337/project/index.php');
   }
 
   // Second query
   if (isset($_POST['submit'])) {
-    if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '') {
+    if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '' or $_POST['category_id'] == '') {
       echo 'one or more inputs are empty';
     } else {
 
-      if (empty($rows->img)) {
+      if (!empty($rows->img)) {
         $img = $rows->img;
       } else {
-        unlink("images/" . $rows->img . "");
+        // unlink("images/" . $rows->img . "");
       }
+
+
+      //these are should be inside submit.......
+      // Function to safely construct the file upload path
+      function file_upload_path($original_filename, $upload_subfolder_name = 'images')
+      {
+        $current_folder = dirname(__FILE__);
+        $path_segments = [$current_folder, $upload_subfolder_name, basename($original_filename)];
+        return join(DIRECTORY_SEPARATOR, $path_segments);
+      }
+
+      // Function to check if the file is an image
+      function file_is_an_image($temporary_path, $new_path)
+      {
+        $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
+
+        $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
+
+        $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
+
+        return $file_extension_is_valid;
+      }
+
+
 
       $title = $_POST['title'];
       $subtitle = $_POST['subtitle'];
       $body = $_POST['body'];
+      $category_id = $_POST['category_id'];
       $img = $_FILES['img']['name'];
 
       $dir = 'images/' . basename($img);
 
-      $update = $conn->prepare("UPDATE posts SET title = :title, subtitle = :subtitle, body = :body, img = :img WHERE id = '$id'");
+      // Check if an image is uploaded
+      $image_upload_detected = isset($_FILES['img']) && ($_FILES['img']['error'] === 0);
+      $upload_error_detected = isset($_FILES['img']) && ($_FILES['img']['error'] > 0);
+
+
+      $update = $conn->prepare("UPDATE posts SET title = :title, subtitle = :subtitle, body = :body, category_id = :category_id, img = :img WHERE id = '$id'");
+
+      // If an image is uploaded
+      if ($image_upload_detected) {
+        // Obtain image information
+        $image_filename       = $_FILES['img']['name'];
+        $temporary_image_path = $_FILES['img']['tmp_name'];
+        $new_image_path       = file_upload_path($image_filename);
+
+        // Check if the image is valid, and if so, upload it
+        if (file_is_an_image($temporary_image_path, $new_image_path)) {
+          move_uploaded_file($temporary_image_path, $new_image_path);
+        } else {
+          // Handle invalid image error
+          echo "The uploaded file is not a valid image. Try again.";
+          exit(); // Exit script as there is no uploaded image
+        }
+      }
 
       $update->execute([
         ':title' => $title,
         ':subtitle' => $subtitle,
         ':body' => $body,
+        ':category_id' => $category_id,
         ':img' => $img
 
       ]);
@@ -109,6 +125,15 @@ if (isset($_GET['upd_id'])) {
 
   <div class="form-outline mb-4">
     <textarea type="text" name="body" id="form2Example1" class="form-control" placeholder="body" rows="8"><?php echo $rows->body; ?></textarea>
+  </div>
+
+  <div class="form-outline mb-4">
+    <select name="category_id" class="form-select" aria-label="Default select example">
+      <option selected>Open this select menu</option>
+      <?php foreach ($category as $cat) : ?>
+        <option value="<?php echo $cat->id; ?>"><?php echo $cat->name; ?></option>
+      <?php endforeach; ?>
+    </select>
   </div>
 
   <?php echo "<img src='images/" . $rows->img . "' width=300px height=300px> "; ?>
