@@ -8,10 +8,23 @@
 if (isset($_GET['upd_id'])) {
   $id = $_GET['upd_id'];
 
+  // sanitize
+  if (!is_numeric($id)) {
+    header("Location: http://localhost/wd2/Final%20Project%20CMS/CMS%20NooBtok/404.php");
+    exit;
+  }
+
   // First query to fetch the existing post details
   $select = $conn->query("SELECT * FROM posts WHERE id = '$id'");
   $select->execute();
   $rows = $select->fetch(PDO::FETCH_OBJ);
+
+  // rows not found
+
+  if (!$rows) {
+    header("Location: http://localhost/wd2/Final%20Project%20CMS/CMS%20NooBtok/404.php");
+    exit;
+  }
 
   //categories
   $categories = $conn->query("SELECT * FROM categories");
@@ -36,8 +49,17 @@ if (isset($_GET['upd_id'])) {
         // unlink("images/" . $rows->img . "");
       }
 
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_FILES["img"]) && $_FILES["img"]["error"] == UPLOAD_ERR_OK) {
+          $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+          if (!in_array($_FILES["img"]["type"], $allowed_types)) {
+            echo "The uploaded file is not a valid image. Try again.";
+            exit;
+          }
+        }
+      }
 
-      //these are should be inside submit.......
+
       // Function to safely construct the file upload path
       function file_upload_path($original_filename, $upload_subfolder_name = 'images')
       {
@@ -49,13 +71,16 @@ if (isset($_GET['upd_id'])) {
       // Function to check if the file is an image
       function file_is_an_image($temporary_path, $new_path)
       {
+        $allowed_mime_types = ['image/gif', 'image/jpeg', 'image/png'];
         $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
 
-        $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
+        $actual_file_extension = pathinfo($new_path, PATHINFO_EXTENSION);
+        $actual_mime_type = mime_content_type($temporary_path);
 
         $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
+        $mime_type_is_valid = in_array($actual_mime_type, $allowed_mime_types);
 
-        return $file_extension_is_valid;
+        return $file_extension_is_valid && $mime_type_is_valid;
       }
 
 
@@ -81,14 +106,13 @@ if (isset($_GET['upd_id'])) {
         $image_filename       = $_FILES['img']['name'];
         $temporary_image_path = $_FILES['img']['tmp_name'];
         $new_image_path       = file_upload_path($image_filename);
+        unlink("images/" . $rows->img);
 
         // Check if the image is valid, and if so, upload it
         if (file_is_an_image($temporary_image_path, $new_image_path)) {
           move_uploaded_file($temporary_image_path, $new_image_path);
         } else {
-          // Handle invalid image error
-          echo "The uploaded file is not a valid image. Try again.";
-          exit(); // Exit script as there is no uploaded image
+          $img = $rows->img;
         }
       }
 

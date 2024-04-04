@@ -15,20 +15,22 @@ $category = $categories->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <div class="row gx-4 gx-lg-5 justify-content-center">
-            <H3>Categories</H3>
+    <h3>Categories</h3>
             <br>
             <br>
             <br>
             
     <?php foreach ($category as $cat) : ?>
         <div class="col-md-6">
-        <a href="http://localhost:31337/project/categories/category.php?cat_id=<?php echo $cat->id; ?>">
-            <div class="alert alert-dark bg-dark text-center text-white" role="alert">
-                <?php echo $cat->name; ?>
-            </div></a>
+            <a href="http://localhost:31337/project/categories/category.php?cat_id=<?php echo htmlspecialchars($cat->id); ?>">
+                <div class="alert alert-dark bg-dark text-center text-white" role="alert">
+                    <?php echo htmlspecialchars($cat->name);  ?>
+                </div>
+            </a>
         </div>
     <?php endforeach; ?>
 </div>
+
 
 <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -42,7 +44,8 @@ $category = $categories->fetchAll(PDO::FETCH_OBJ);
                     <h2 class="post-title"><?php echo $row->title; ?></h2>
                     <h3 class="post-subtitle"><?php echo $row->subtitle; ?></h3>
                 </a>
-
+            
+                <!-- html image tag -->
                 <?php if (!empty($row->img)) : ?>
                     <img src="http://localhost:31337/project/images/<?php echo htmlspecialchars($row->img); ?>" alt="<?php echo htmlspecialchars($row->title); ?>" style="width:100%;max-width:600px;">
                 <?php endif; ?>

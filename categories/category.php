@@ -1,10 +1,10 @@
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
 
-<?php 
+<?php
 
 
-if(isset($_GET['cat_id'])) {
+if (isset($_GET['cat_id'])) {
     $id = $_GET['cat_id'];
 
     $posts = $conn->query("SELECT posts.id AS id, posts.title AS title, posts.subtitle AS subtitle, posts.user_name AS user_name, posts.created_at AS created_at, posts.category_id AS category_id FROM categories 
