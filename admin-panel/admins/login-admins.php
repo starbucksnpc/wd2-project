@@ -1,100 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
-    <title>Admin Panel</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-     <link href="../styles/style.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div id="wrapper">
-    <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
-      <div class="container">
-      <a class="navbar-brand" href="../index.html">LOGO</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<?php require "../layouts/header.php"; ?>
+<?php require "../../config/config.php"; ?>
 
-      <div class="collapse navbar-collapse" id="navbarText">
-        <!-- <ul class="navbar-nav side-nav" >
-          <li class="nav-item">
-            <a class="nav-link" style="margin-left: 20px;" href="../index.html">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admins.html" style="margin-left: 20px;">Admins</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../categories-admins/show-categories.html" style="margin-left: 20px;">Categories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../posts-admins/show-posts.html" style="margin-left: 20px;">Posts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="margin-left: 20px;">Comments</a>
-          </li> 
 
-        </ul> -->
-        <ul class="navbar-nav ml-md-auto d-md-flex">
-        <!--   <li class="nav-item">
-            <a class="nav-link" href="../index.html">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              username
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Logout</a>
-              
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" href="login-admins.html">Login
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>           
-          
-        </ul>
+
+<?php
+// Redirect if user is already logged in
+// if(isset($_SESSION['username'])) {
+//   header("location: http://localhost:31337/project/index.php");
+// }
+
+// Check if form is submitted
+if (isset($_POST['submit'])) {
+  // Check if email and password are provided
+  if ($_POST['email'] == '' or $_POST['password'] == '') {
+    $errorMessage = "One or more inputs are empty.";
+  } else {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $login = $conn->query("SELECT * FROM admins WHERE email = '$email'");
+
+    $login->execute();
+
+    $row = $login->FETCH(PDO::FETCH_ASSOC);
+
+    // Check if user exists
+    if ($login->rowCount() > 0) {
+      // Verify password
+      if (password_verify($password, $row['mypassword'])) {
+        // echo "logged in";
+
+        $_SESSION['adminname'] = $row['adminname'];
+        $_SESSION['admin_id'] = $row['id'];
+
+
+        header('location: http://localhost:31337/project/admin-panel/index.php');
+        //exit; //Exit to prevent further execution
+      } else {
+        //Incorrect password
+        $errorMessage = "Incorrect email or password. Please try again.";
+      }
+    } else {
+      // User not found
+      $errorMessage = "You do not have access permissions.";
+    }
+  }
+}
+
+
+
+
+?>
+
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mt-5">Login</h5>
+        <form method="POST" class="p-auto" action="login-admins.php">
+
+          <!-- Login failure message -->
+          <?php if (isset($errorMessage)) : ?>
+            <div class="alert alert-danger text-center" role="alert">
+              <?php echo $errorMessage; ?>
+            </div>
+          <?php endif; ?>
+
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
+
+          </div>
+
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input type="password" name="password" id="form2Example2" placeholder="Password" class="form-control" />
+
+          </div>
+
+
+
+          <!-- Submit button -->
+          <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Login</button>
+
+
+        </form>
+
       </div>
     </div>
-    </nav>
-<div class="container-fluid"> 
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mt-5">Login</h5>
-              <form method="POST" class="p-auto" action="login.php">
-                  <!-- Email input -->
-                  <div class="form-outline mb-4">
-                    <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
-                   
-                  </div>
-
-                  
-                  <!-- Password input -->
-                  <div class="form-outline mb-4">
-                    <input type="password" name="password" id="form2Example2" placeholder="Password" class="form-control" />
-                    
-                  </div>
-
-
-
-                  <!-- Submit button -->
-                  <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Login</button>
-
-                 
-                </form>
-
-            </div>
-       </div>
-     </div>
-    </div>
+  </div>
 </div>
+
+<?php require "../layouts/footer.php"; ?>

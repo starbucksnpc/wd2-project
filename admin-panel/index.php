@@ -1,4 +1,5 @@
-
+<?php require "layouts/header.php"; ?>
+<?php require "../config/config.php"; ?>
             
       <div class="row">
         <div class="col-md-4">
@@ -68,3 +69,5 @@
   </tbody>
 </table> -->
             
+
+<?php require "layouts/footer.php"; ?>
