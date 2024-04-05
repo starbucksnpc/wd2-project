@@ -38,13 +38,13 @@ session_start();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admins/admins.html" style="margin-left: 20px;">Admins</a>
+                                <a class="nav-link" href="http://localhost:31337/project/admin-panel/admins/admins.php" style="margin-left: 20px;">Admins</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="categories-admins/show-categories.html" style="margin-left: 20px;">Categories</a>
+                                <a class="nav-link" href="http://localhost:31337/project/admin-panel/categories-admins/show-categories.php" style="margin-left: 20px;">Categories</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="posts-admins/show-posts.html" style="margin-left: 20px;">Posts</a>
+                                <a class="nav-link" href="http://localhost:31337/project/admin-panel/posts-admins/show-posts.php" style="margin-left: 20px;">Posts</a>
                             </li>
 
                 <?php endif; ?>
