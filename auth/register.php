@@ -10,8 +10,8 @@ if (isset($_SESSION['username'])) {
 
 if (isset($_POST['submit'])) {
 
-  if ($_POST['email'] == '' or $_POST['username'] == '' or $_POST['password'] == '') {
-    echo "type something in the inputs.";
+  if ($_POST['email'] == '' or $_POST['username'] == '' or $_POST['password'] == '' or $_POST['confirm_password'] == '') {
+    $errorMessage =  "Enter data into the inputs.";
   } else {
     $email = $_POST['email'];
     $username = $_POST['username'];
@@ -45,6 +45,14 @@ if (isset($_POST['submit'])) {
 <html lang="en">
   
 <form method="POST" action="register.php">
+
+ <!-- Error message -->
+ <?php if (isset($errorMessage)) : ?>
+    <div class="alert alert-danger text-center" role="alert">
+      <?php echo $errorMessage; ?>
+    </div>
+  <?php endif; ?>
+
   <!-- Email input -->
   <div class="form-outline mb-4">
     <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
@@ -67,12 +75,7 @@ if (isset($_POST['submit'])) {
     <input type="password" name="confirm_password" id="form2Example3" placeholder="Confirm Password" class="form-control" />
   </div>
 
-  <!-- Error message -->
-  <?php if (isset($errorMessage)) : ?>
-    <div class="alert alert-danger" role="alert">
-      <?php echo $errorMessage; ?>
-    </div>
-  <?php endif; ?>
+ 
 
   <!-- Submit button -->
   <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Register</button>

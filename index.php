@@ -3,7 +3,7 @@
 
 <?php
 
-$posts = $conn->query("SELECT * FROM posts");
+$posts = $conn->query("SELECT * FROM posts LIMIT 5");
 $posts->execute();
 $rows = $posts->fetchAll(PDO::FETCH_OBJ);
 
@@ -15,10 +15,8 @@ $category = $categories->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <div class="row gx-4 gx-lg-5 justify-content-center">
-    <h3>Categories</h3>
-            <br>
-            <br>
-            <br>
+    <h3 class="mb-5">Categories</h3>
+            
             
     <?php foreach ($category as $cat) : ?>
         <div class="col-md-6">

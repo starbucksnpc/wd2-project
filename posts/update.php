@@ -40,7 +40,7 @@ if (isset($_GET['upd_id'])) {
   // Second query
   if (isset($_POST['submit'])) {
     if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '' or $_POST['category_id'] == '') {
-      echo 'one or more inputs are empty';
+      echo "<div class='alert alert-danger text-center role='alert'> One or more inputs are empty </div>";
     } else {
 
       if (!empty($rows->img)) {
@@ -53,7 +53,7 @@ if (isset($_GET['upd_id'])) {
         if (isset($_FILES["img"]) && $_FILES["img"]["error"] == UPLOAD_ERR_OK) {
           $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
           if (!in_array($_FILES["img"]["type"], $allowed_types)) {
-            echo "The uploaded file is not a valid image. Try again.";
+            echo "<div class='alert alert-danger text-center role='alert'> The uploaded file is not a valid image. Try again. </div>";
             exit;
           }
         }
@@ -129,9 +129,11 @@ if (isset($_GET['upd_id'])) {
         header('location: http://localhost:31337/project/index.php');
       }
 
-      header('location: http://localhost:31337/project/index.php');
+      // header('location: http://localhost:31337/project/index.php');
     }
   }
+} else {
+  header('location: http://localhost:31337/project/404.php');
 }
 
 ?>

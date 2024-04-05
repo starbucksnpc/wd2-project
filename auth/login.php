@@ -26,7 +26,7 @@ if(isset($_SESSION['username'])) {
 if (isset($_POST['submit'])) {
     // Check if email and password are provided
     if ($_POST['email'] == '' or $_POST['password'] == '') {
-        $errorMessage = "one input or more are empty.";
+        $errorMessage = "One or more inputs are empty.";
     } else {
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
                 exit; //Exit to prevent further execution
             } else {
                 //Incorrect password
-                $errorMessage = "Incorrect username or password. Please try again.";
+                $errorMessage = "Incorrect email or password. Please try again.";
             }
         } else{
             // User not found
@@ -65,6 +65,14 @@ if (isset($_POST['submit'])) {
 
 <form method="POST" action="login.php">
     <!-- Email input -->
+
+    <!-- Login failure message -->
+    <?php if(isset($errorMessage)): ?>
+            <div class="alert alert-danger text-center" role="alert">
+                <?php echo $errorMessage; ?>
+            </div>
+        <?php endif; ?>
+
     <div class="form-outline mb-4">
         <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
 
@@ -77,12 +85,7 @@ if (isset($_POST['submit'])) {
 
     </div>
 
-    <!-- Login failure message -->
-    <?php if(isset($errorMessage)): ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorMessage; ?>
-            </div>
-        <?php endif; ?>
+    
 
     <!-- Submit button -->
     <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Login</button>

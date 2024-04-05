@@ -13,7 +13,7 @@
 
         $post = $select->fetch(PDO::FETCH_OBJ);
     } else {
-        echo "404";
+        header('location: http://localhost:31337/project/404.php');
     }
 ?>
 

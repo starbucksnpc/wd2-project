@@ -12,6 +12,8 @@ if (isset($_GET['cat_id'])) {
     WHERE posts.category_id = '$id'");
     $posts->execute();
     $rows = $posts->fetchAll(PDO::FETCH_OBJ);
+} else {
+    header("location: http://localhost:31337/project/404.php");
 }
 
 
@@ -33,6 +35,7 @@ if (isset($_GET['cat_id'])) {
                     <h3 class="post-subtitle"><?php echo $row->subtitle; ?></h3>
                 </a>
 
+                <!-- html image tag -->
                 <?php if (!empty($row->img)) : ?>
                     <img src="http://localhost:31337/project/images/<?php echo htmlspecialchars($row->img); ?>" alt="<?php echo htmlspecialchars($row->title); ?>" style="width:100%;max-width:600px;">
                 <?php endif; ?>

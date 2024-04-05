@@ -12,7 +12,7 @@
 
         if($_SESSION['user_id'] !== $posts->user_id) {
             // header('location: http://localhost:31337/project/index.php');
-            echo "yoyoyo?"; 
+            echo "you?";
         }
         else {
 
@@ -22,12 +22,12 @@
             $delete->execute([
                 ':id' => $id
             ]);
-            echo "Successfully deleted.";
 
         }
-
-        header('location: http://localhost:31337/project/index.php');
-        // echo "are you?";
+        echo "<div class='alert alert-danger text-center role='alert'> Successfully deleted. </div>";
+        // header('location: http://localhost:31337/project/index.php');
+    } else {
+        header('location: http://localhost:31337/project/404.php');
     }
 
 ?>

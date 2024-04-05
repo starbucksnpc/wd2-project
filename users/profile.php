@@ -65,6 +65,8 @@ if (isset($_GET['prof_id'])) {
       header('location: http://localhost:31337/project/users/profile.php?prof_id='.$_SESSION['user_id'].'');
     }
   }
+} else {
+    header('location: http://localhost:31337/project/404.php');
 }
 
 ?>

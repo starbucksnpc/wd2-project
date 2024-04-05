@@ -14,7 +14,7 @@ $category = $categories->fetchAll(PDO::FETCH_OBJ);
 // Only create a post if the image is valid
 if (isset($_POST['submit'])) {
   if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '' or $_POST['category_id'] == '') {
-    echo "one or more inputs are empty";
+    echo "<div class='alert alert-danger text-center role='alert'> One or more inputs are empty </div>";
   } else {
     $title = $_POST['title'];
     $subtitle = $_POST['subtitle'];
@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
         move_uploaded_file($temporary_image_path, $new_image_path);
       } else {
         // Handle invalid image error
-        echo "The uploaded file is not a valid image. Try again.";
+        echo "<div class='alert alert-danger text-center role='alert'> The uploaded file is not a valid image. Try again. </div>";
         exit(); // Exit script as there is no uploaded image
       }
     }
