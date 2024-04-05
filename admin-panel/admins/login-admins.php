@@ -5,9 +5,9 @@
 
 <?php
 // Redirect if user is already logged in
-// if(isset($_SESSION['username'])) {
-//   header("location: http://localhost:31337/project/index.php");
-// }
+if(isset($_SESSION['adminname'])) {
+  header("location: http://localhost:31337/project/admin-panel/index.php");
+}
 
 // Check if form is submitted
 if (isset($_POST['submit'])) {

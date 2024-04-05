@@ -1,6 +1,8 @@
 <?php require "includes/header.php"; ?>
 <?php require "config/config.php"; ?>
 
+
+
 <?php
 
 $posts = $conn->query("SELECT * FROM posts LIMIT 5");
