@@ -10,7 +10,7 @@ if (isset($_GET['upd_id'])) {
 
   // sanitize
   if (!is_numeric($id)) {
-    header("Location: http://localhost/wd2/Final%20Project%20CMS/CMS%20NooBtok/404.php");
+    header("Location: http://localhost:31337/project/404.php");
     exit;
   }
 
@@ -22,7 +22,7 @@ if (isset($_GET['upd_id'])) {
   // rows not found
 
   if (!$rows) {
-    header("Location: http://localhost/wd2/Final%20Project%20CMS/CMS%20NooBtok/404.php");
+    header("Location: http://localhost:31337/project/404.php");
     exit;
   }
 
