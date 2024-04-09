@@ -106,7 +106,8 @@ if (isset($_GET['upd_id'])) {
         $image_filename       = $_FILES['img']['name'];
         $temporary_image_path = $_FILES['img']['tmp_name'];
         $new_image_path       = file_upload_path($image_filename);
-        unlink("images/" . $rows->img);
+        unlink("images/" . $rows->img . "");
+
 
         // Check if the image is valid, and if so, upload it
         if (file_is_an_image($temporary_image_path, $new_image_path)) {
@@ -125,15 +126,17 @@ if (isset($_GET['upd_id'])) {
 
       ]);
 
-      if (move_uploaded_file($_FILES['img']['tmp_name'], $dir)) {
-        header('location: http://localhost:31337/project/index.php');
-      }
+      // if (move_uploaded_file($_FILES['img']['tmp_name'], $dir)) {
+      //   header('location: http://localhost:31337/project/index.php');
+      // }
 
-      // header('location: http://localhost:31337/project/index.php');
+       header('location: http://localhost:31337/project/index.php');
+       exit;
     }
   }
 } else {
   header('location: http://localhost:31337/project/404.php');
+  exit;
 }
 
 ?>

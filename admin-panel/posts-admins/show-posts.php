@@ -4,7 +4,7 @@
 
 <?php
 
-    $posts = $conn->query("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name FROM categories 
+    $posts = $conn->query("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name, posts.status AS status FROM categories
     JOIN posts ON categories.id = posts.category_id");
     $posts->execute();
     $rows = $posts->fetchAll(PDO::FETCH_OBJ);
@@ -26,6 +26,7 @@
               <th scope="col">Category</th>
               <th scope="col">User</th>
               <th scope="col">Created at</th>
+              <th scope="col">Status</th>
               <th scope="col">Delete</th>
 
             </tr>
@@ -38,6 +39,11 @@
               <td><?php echo $row->name; ?></td>
               <td><?php echo $row->user_name; ?></td>
               <td><?php echo $row->created_at; ?></td>
+              <?php if($row->status == 0) : ?>
+                <td><a href="status-posts.php?status=<?php echo $row->status; ?>&id=<?php echo $row->id; ?>" class="btn btn-danger  text-center ">Deactivated</a></td>
+              <?php else:  ?>
+                <td><a href="status-posts.php?status=<?php echo $row->status; ?>&id=<?php echo $row->id; ?>" class="btn btn-primary  text-center ">Activated</a></td>
+              <?php endif; ?>
               <td><a href="delete-posts.php?po_id=<?php echo $row->id; ?>" class="btn btn-danger  text-center ">Delete</a></td>
             </tr>
             <?php endforeach; ?>
