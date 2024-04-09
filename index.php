@@ -5,7 +5,7 @@
 
 <?php
 
-$posts = $conn->query("SELECT * FROM posts LIMIT 5");
+$posts = $conn->query("SELECT * FROM posts LIMIT 20");
 $posts->execute();
 $rows = $posts->fetchAll(PDO::FETCH_OBJ);
 

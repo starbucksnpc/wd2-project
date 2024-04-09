@@ -18,7 +18,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <!-- <th scope="col">#</th> -->
               <th scope="col">Name</th>
               <th scope="col">Update</th>
               <th scope="col">Delete</th>
@@ -27,7 +27,7 @@
           <tbody>
             <?php foreach($rows as $row) : ?>
             <tr>
-              <th scope="row"><?php echo $row->id; ?></th>
+              <!-- <th scope="row"><?php echo $row->id; ?></th> -->
               <td><?php echo $row->name; ?></td>
               <td><a href="http://localhost:31337/project/admin-panel/categories-admins/update-category.php?up_id=<?php echo $row->id; ?>" class="btn btn-warning text-white text-center ">Update</a></td>
               <td><a href="http://localhost:31337/project/admin-panel/categories-admins/delete-category.php?de_id=<?php echo $row->id; ?>" class="btn btn-danger text-center">Delete</a></td>
