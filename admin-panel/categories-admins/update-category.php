@@ -12,6 +12,11 @@ if (isset($_GET['up_id'])) {
     exit;
   }
 
+
+  if (!isset($_SESSION['adminname'])) {
+    header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
+  }
+  
   // First query to fetch the existing post details
   $select = $conn->query("SELECT * FROM categories WHERE id = '$id'");
   $select->execute();
@@ -30,10 +35,7 @@ if (isset($_GET['up_id'])) {
   $category = $categories->fetchAll(PDO::FETCH_OBJ);
 
 
-  // update data
-  // if ($_SESSION['user_id'] !== $rows->user_id) {
-  //   header('location: http://localhost:31337/project/index.php');
-  // }
+ 
 
   // Second query
   if (isset($_POST['submit'])) {

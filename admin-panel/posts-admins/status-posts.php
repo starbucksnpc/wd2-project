@@ -3,6 +3,12 @@
 
 <?php
 
+
+if (!isset($_SESSION['adminname'])) {
+    header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
+  }
+  
+
 if (isset($_GET['id']) AND isset($_GET['status'])) {
   $id = $_GET['id'];
   $status = $_GET['status'];

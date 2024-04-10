@@ -4,9 +4,9 @@
 <?php
 
 
-// if (isset($_SESSION['username'])) {
-//   header("location: http://localhost:31337/project/index.php");
-// }
+if (!isset($_SESSION['adminname'])) {
+  header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
+}
 
 if (isset($_POST['submit'])) {
 

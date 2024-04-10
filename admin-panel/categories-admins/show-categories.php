@@ -3,6 +3,13 @@
 
 <?php
 
+
+if (!isset($_SESSION['adminname'])) {
+  header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
+}
+
+
+
     $categories = $conn->query("SELECT * FROM categories LIMIT 7");
     $categories->execute();
     $rows = $categories->fetchAll(PDO::FETCH_OBJ);

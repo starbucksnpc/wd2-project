@@ -4,6 +4,10 @@
 
 <?php
 
+if (!isset($_SESSION['adminname'])) {
+  header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
+}
+
   $admins = $conn->query("SELECT * FROM admins LIMIT 7");
   $admins->execute();
   $rows = $admins->fetchAll(PDO::FETCH_OBJ);
