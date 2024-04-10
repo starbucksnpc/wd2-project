@@ -11,7 +11,7 @@ session_start();
 <head>
     <meta charset="utf-8">
     <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
-    <title>Admin Panel</title>
+    <title>Admin Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://localhost:31337/project/admin-panel/styles/style.css" rel="stylesheet">
@@ -23,7 +23,7 @@ session_start();
     <div id="wrapper">
         <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#">LOGO</a>
+                <a class="navbar-brand" href="#">Yum Winnipeg's Admin Page</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -45,6 +45,9 @@ session_start();
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:31337/project/admin-panel/posts-admins/show-posts.php" style="margin-left: 20px;">Posts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:31337/project/admin-panel/users-admins/show-users.php" style="margin-left: 20px;">Users</a>
                             </li>
 
                 <?php endif; ?>

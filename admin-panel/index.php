@@ -23,6 +23,10 @@
       $select_posts->execute();
       $posts = $select_posts->fetch(PDO::FETCH_OBJ);
 
+      //users
+      $select_users = $conn->query("SELECT COUNT(*) AS users_numbers FROM users");
+      $select_users->execute();
+      $users = $select_users->fetch(PDO::FETCH_OBJ);
 
 ?>
 
@@ -63,5 +67,16 @@
   </div>
 </div>
 
+<div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Users</h5>
+
+        <p class="card-text">number of users: <?php echo $users->users_numbers; ?></p>
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php require "layouts/footer.php"; ?>
