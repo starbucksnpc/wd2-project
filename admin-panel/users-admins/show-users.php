@@ -21,7 +21,7 @@ if (!isset($_SESSION['adminname'])) {
     <div class="card">
       <div class="card-body">
       <h5 class="card-title mb-4 d-inline">Users</h5>
-        <a href="create-category.php" class="btn btn-primary mb-4 text-center float-right">Create Users</a>
+        <a href="create-users.php" class="btn btn-primary mb-4 text-center float-right">Create Users</a>
 
         <table class="table">
           <thead>

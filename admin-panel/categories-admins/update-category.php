@@ -35,7 +35,6 @@ if (isset($_GET['up_id'])) {
   $category = $categories->fetchAll(PDO::FETCH_OBJ);
 
 
- 
 
   // Second query
   if (isset($_POST['submit'])) {
