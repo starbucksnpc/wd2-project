@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
     ]);
 
     // Redirect to login page after successful creating category
-    header("location: http://localhost:31337/project/admin-panel/categories-admins/create-category.php");
+    //header("location: http://localhost:31337/project/admin-panel/categories-admins/create-category.php");
   }
 }
 

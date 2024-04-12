@@ -13,16 +13,21 @@ $category = $categories->fetchAll(PDO::FETCH_OBJ);
 
 // Only create a post if the image is valid
 if (isset($_POST['submit'])) {
-  if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '' or $_POST['category_id'] == '') {
+  if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '' ) {
     echo "<div class='alert alert-danger text-center role='alert'> One or more inputs are empty </div>";
+  } elseif (!isset($_POST['category_id']) || $_POST['category_id'] == '') {
+    echo "<div class='alert alert-danger text-center' role='alert'> Category is required </div>";
   } else {
-    $title = $_POST['title'];
-    $subtitle = $_POST['subtitle'];
-    $body = $_POST['body'];
-    $category_id = $_POST['category_id'];
+    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $subtitle = filter_input(INPUT_POST, 'subtitle', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $body = filter_input(INPUT_POST, 'body', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
+
     $img = $_FILES['img']['name'];
     $user_id = $_SESSION['user_id'];
     $user_name = $_SESSION['username'];
+
+    
 
     // Execute the post creation query
     $insert = $conn->prepare("INSERT INTO posts (title, subtitle, body, category_id, img, user_id, user_name) VALUES (:title, :subtitle, :body, :category_id, :img, :user_id, :user_name)");
@@ -109,7 +114,7 @@ if (isset($_POST['submit'])) {
 
   <div class="form-outline mb-4">
     <select name="category_id" class="form-select" aria-label="Default select example">
-      <option selected>Open this select menu</option>
+      <option selected disabled>Select a category</option>
       <?php foreach ($category as $cat) : ?>
         <option value="<?php echo $cat->id; ?>"><?php echo $cat->name; ?></option>
       <?php endforeach; ?>

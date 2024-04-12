@@ -39,8 +39,10 @@ if (isset($_GET['upd_id'])) {
 
   // Second query
   if (isset($_POST['submit'])) {
-    if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '' or $_POST['category_id'] == '') {
+    if ($_POST['title'] == '' or $_POST['subtitle'] == '' or $_POST['body'] == '') {
       echo "<div class='alert alert-danger text-center role='alert'> One or more inputs are empty </div>";
+    } elseif (!isset($_POST['category_id']) || $_POST['category_id'] == '') {
+      echo "<div class='alert alert-danger text-center' role='alert'> Category is required </div>";
     } else {
 
       if (!empty($rows->img)) {
@@ -85,10 +87,10 @@ if (isset($_GET['upd_id'])) {
 
 
 
-      $title = $_POST['title'];
-      $subtitle = $_POST['subtitle'];
-      $body = $_POST['body'];
-      $category_id = $_POST['category_id'];
+      $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+      $subtitle = filter_input(INPUT_POST, 'subtitle', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+      $body = filter_input(INPUT_POST, 'body', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+      $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
       $img = $_FILES['img']['name'];
 
       $dir = 'images/' . basename($img);
@@ -130,8 +132,8 @@ if (isset($_GET['upd_id'])) {
       //   header('location: http://localhost:31337/project/index.php');
       // }
 
-       header('location: http://localhost:31337/project/index.php');
-       exit;
+      header('location: http://localhost:31337/project/index.php');
+      exit;
     }
   }
 } else {
@@ -158,7 +160,7 @@ if (isset($_GET['upd_id'])) {
 
   <div class="form-outline mb-4">
     <select name="category_id" class="form-select" aria-label="Default select example">
-      <option selected>Open this select menu</option>
+      <option selected disabled>Open this select menu</option>
       <?php foreach ($category as $cat) : ?>
         <option value="<?php echo $cat->id; ?>"><?php echo $cat->name; ?></option>
       <?php endforeach; ?>

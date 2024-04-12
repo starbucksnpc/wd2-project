@@ -51,7 +51,7 @@ if (isset($_GET['up_id'])) {
 
       ]);
 
-      header('location: http://localhost:31337/project/admin-panel/categories-admins/show-categories.php');
+      //header('location: http://localhost:31337/project/admin-panel/categories-admins/show-categories.php');
     }
   }
 } else {
@@ -70,7 +70,7 @@ if (isset($_GET['up_id'])) {
         <form method="POST" action="update-category.php?up_id=<?php echo $rows->id; ?>" enctype="multipart/form-data">
           <!-- Email input -->
           <div class="form-outline mb-4 mt-4">
-            <input type="text" value="<?php echo $rows->name; ?>" name="name" id="form2Example1" class="form-control" placeholder="name" />
+            <input type="text" value="" name="name" id="form2Example1" class="form-control" placeholder="name" />
 
           </div>
 

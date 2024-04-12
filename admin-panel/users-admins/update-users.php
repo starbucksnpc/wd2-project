@@ -25,8 +25,6 @@ if (isset($_GET['up_id'])) {
 
             $username = $_POST['username'];
 
-
-
             $update = $conn->prepare("UPDATE users SET username = :username WHERE id = '$id'");
 
             $update->execute([
@@ -55,7 +53,7 @@ if (isset($_GET['up_id'])) {
 
                     
                     <div class="form-outline mb-4 mt-4">
-                        <input type="text" value="<?php echo $rows->username; ?>" name="username" id="form2Example1" class="form-control" placeholder="username" />
+                        <input type="text" value="" name="username" id="form2Example1" class="form-control" placeholder="username" />
 
                     </div>
 

@@ -11,12 +11,16 @@
         $posts = $select->fetch(PDO::FETCH_OBJ);
 
         if($_SESSION['user_id'] !== $posts->user_id) {
-            // header('location: http://localhost:31337/project/index.php');
-            echo "you?";
+             header('location: http://localhost:31337/project/index.php');
+            //echo "you?";
         }
         else {
 
-            unlink("images/" . $posts->img . "");
+            $img = $posts->img;
+            if(!empty($img)) { // if images exist
+
+            unlink('C:/xampp/htdocs/project/posts/images' . $img );
+            }
 
             $delete = $conn->prepare("DELETE FROM posts WHERE id = :id");
             $delete->execute([
