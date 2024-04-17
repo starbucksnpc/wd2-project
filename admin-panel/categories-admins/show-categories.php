@@ -10,7 +10,7 @@ if (!isset($_SESSION['adminname'])) {
 
 
 
-    $categories = $conn->query("SELECT * FROM categories LIMIT 7");
+    $categories = $conn->prepare("SELECT * FROM categories LIMIT 7");
     $categories->execute();
     $rows = $categories->fetchAll(PDO::FETCH_OBJ);
 

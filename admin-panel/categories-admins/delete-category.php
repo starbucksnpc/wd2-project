@@ -4,7 +4,10 @@
 <?php
 
     if(isset($_GET['de_id'])) {
-        $id = $_GET['de_id'];
+        $id = filter_input(INPUT_GET, 'de_id', FILTER_VALIDATE_INT);
+
+       
+      
 
         $delete = $conn->prepare("DELETE FROM categories WHERE id = :id");
         $delete->execute([

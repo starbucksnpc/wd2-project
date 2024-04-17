@@ -9,7 +9,7 @@ if (!isset($_SESSION['adminname'])) {
 }
 
 
-    $posts = $conn->query("SELECT users.id AS id, users.email AS email, users.username AS username, users.mypassword AS mypassword, users.created_at AS created_at FROM users");
+    $posts = $conn->prepare("SELECT users.id AS id, users.email AS email, users.username AS username, users.mypassword AS mypassword, users.created_at AS created_at FROM users");
     $posts->execute();
     $rows = $posts->fetchAll(PDO::FETCH_OBJ);
 

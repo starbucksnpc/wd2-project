@@ -9,7 +9,7 @@ if (!isset($_SESSION['adminname'])) {
 }
 
 
-    $posts = $conn->query("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name, posts.status AS status FROM categories
+    $posts = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name, posts.status AS status FROM categories
     JOIN posts ON categories.id = posts.category_id");
     $posts->execute();
     $rows = $posts->fetchAll(PDO::FETCH_OBJ);

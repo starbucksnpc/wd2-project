@@ -52,7 +52,7 @@ session_start();
 
                 <?php endif; ?>
 
-                        <!--  <li class="nav-item">
+                         <!-- <li class="nav-item">
             <a class="nav-link" href="#" style="margin-left: 20px;">Comments</a>
           </li> -->
                         </ul>
@@ -80,8 +80,7 @@ session_start();
                                     <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                            <?php endif; ?>
-
+                        <?php endif; ?>
                         </ul>
                     </div>
             </div>

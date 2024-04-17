@@ -6,7 +6,7 @@
 
 
 if (isset($_GET['upd_id'])) {
-  $id = $_GET['upd_id'];
+  $id = filter_input(INPUT_GET, 'upd_id', FILTER_VALIDATE_INT);
 
   // sanitize
   if (!is_numeric($id)) {
@@ -15,16 +15,16 @@ if (isset($_GET['upd_id'])) {
   }
 
   // First query to fetch the existing post details
-  $select = $conn->query("SELECT * FROM posts WHERE id = '$id'");
+  $select = $conn->prepare("SELECT * FROM posts WHERE id = :id");
+  $select->bindParam(':id', $id);
   $select->execute();
   $rows = $select->fetch(PDO::FETCH_OBJ);
 
   // rows not found
-
-  if (!$rows) {
-    header("Location: http://localhost:31337/project/404.php");
-    exit;
-  }
+  // if (!$rows) {
+  //   header("Location: http://localhost:31337/project/404.php");
+  //   exit;
+  // }
 
   //categories
   $categories = $conn->query("SELECT * FROM categories");
@@ -34,7 +34,7 @@ if (isset($_GET['upd_id'])) {
 
   // update data
   if ($_SESSION['user_id'] !== $rows->user_id) {
-    header('location: http://localhost:31337/project/index.php');
+    header('location: http://localhost:31337/project/404.php');
   }
 
   // Second query

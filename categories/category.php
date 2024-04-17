@@ -5,13 +5,27 @@
 
 
 if (isset($_GET['cat_id'])) {
-    $id = $_GET['cat_id'];
+    $id = filter_input(INPUT_GET, 'cat_id', FILTER_VALIDATE_INT);
 
-    $posts = $conn->query("SELECT posts.id AS id, posts.title AS title, posts.subtitle AS subtitle, posts.user_name AS user_name, posts.created_at AS created_at, posts.category_id AS category_id, posts.status AS status FROM categories 
+  // sanitize
+  if (!is_numeric($id)) {
+    header("Location: http://localhost:31337/project/404.php");
+    exit;
+  }
+
+
+    $posts = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.subtitle AS subtitle, posts.user_name AS user_name, posts.created_at AS created_at, posts.category_id AS category_id, posts.status AS status FROM categories 
     JOIN posts ON categories.id = posts.category_id 
     WHERE posts.category_id = '$id' AND status = 1");
     $posts->execute();
     $rows = $posts->fetchAll(PDO::FETCH_OBJ);
+
+// Check if post with the given id exists
+if (!$rows) {
+    header("Location: http://localhost:31337/project/404.php");
+    exit;
+}
+
 } else {
     header("location: http://localhost:31337/project/404.php");
 }

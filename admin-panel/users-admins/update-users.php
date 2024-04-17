@@ -4,16 +4,28 @@
 <?php
 
 if (isset($_GET['up_id'])) {
-    $id = $_GET['up_id'];
+    $id = filter_input(INPUT_GET, 'up_id', FILTER_VALIDATE_INT);
+
+  // sanitize
+  if (!is_numeric($id)) {
+    header("Location: http://localhost:31337/project/404.php");
+    exit;
+}
+
 
     if (!isset($_SESSION['adminname'])) {
         header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
     }
 
     // First query to fetch the existing user details
-    $select = $conn->query("SELECT * FROM users WHERE id = '$id'");
+    $select = $conn->prepare("SELECT * FROM users WHERE id = '$id'");
     $select->execute();
     $rows = $select->fetch(PDO::FETCH_OBJ);
+
+    if (!$rows) {
+        header('location: http://localhost:31337/project/404.php');
+        exit;
+    }
 
 
     // Second query
@@ -29,7 +41,7 @@ if (isset($_GET['up_id'])) {
 
             $update->execute([
                 ':username' => $username,
-
+                ':id' => $id
             ]);
 
             //header('location: http://localhost:31337/project/admin-panel/users-admins/show-users.php');
@@ -37,6 +49,7 @@ if (isset($_GET['up_id'])) {
     }
 } else {
     header('location: http://localhost:31337/project/404.php');
+    exit;
 }
 
 ?>
