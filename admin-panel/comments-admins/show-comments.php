@@ -9,9 +9,9 @@ if (!isset($_SESSION['adminname'])) {
 }
 
 
-    $comments = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.created_at AS created_at, comments.id AS comment_id, comments.id_post_comment AS id_post_comment, comments.user_name_comment AS 
-    user_name_comment, comments.comment AS comment, comments.status_comment AS status_comment FROM comments
-    JOIN posts ON posts.id = comments.id_post_comment");
+    $comments = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.created_at AS created_at, comments.id AS comment_id, comments.id_post_comment AS id_post_comment, 
+    comments.user_name_comment AS user_name_comment, comments.comment AS comment, comments.status_comment AS status_comment 
+    FROM comments JOIN posts ON posts.id = comments.id_post_comment ORDER BY comments.created_at DESC");
     $comments->execute();
     $rows = $comments->fetchAll(PDO::FETCH_OBJ);
 

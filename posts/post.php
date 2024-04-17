@@ -58,8 +58,12 @@ if (isset($_POST['submit']) and isset($_GET['post_id'])) {
 
 $comments = $conn->prepare("SELECT posts.id AS id, comments.id_post_comment AS id_post_comment, comments.user_name_comment AS user_name_comment, 
 comments.comment AS comment, comments.created_at AS created_at, comments.status_comment AS status_comment 
-FROM posts JOIN comments ON posts.id = comments.id_post_comment WHERE posts.id = '$id' AND comments.status_comment = 1");
+FROM posts 
+JOIN comments ON posts.id = comments.id_post_comment 
+WHERE posts.id = :post_id AND comments.status_comment = 1
+ORDER BY comments.created_at DESC");
 
+$comments->bindParam(':post_id', $id);
 $comments->execute();
 $allComments = $comments->fetchAll(PDO::FETCH_OBJ);
 
