@@ -31,20 +31,26 @@ if (isset($_GET['post_id'])) {
 
 if (isset($_POST['submit']) and isset($_GET['post_id'])) {
     //the id of the post and the username for the who posted the comment
-    $id = $_GET['post_id'];
-    $user_name = $_SESSION['username'];
-    $comment = $_POST['comment'];
 
-    $insert = $conn->prepare("INSERT INTO comments (id_post_comment, user_name_comment, comment) VALUES (:id_post_comment, :user_name_comment, :comment)");
+    if ($_POST['comment'] == '') {
 
-    $insert->execute([
-        ':id_post_comment' => $id,
-        ':user_name_comment' => $user_name,
-        ':comment' => $comment,
+        echo "<div class='d-none alert alert-danger text-white'>insert smth in the box</div>";
+    } else {
+        $id = $_GET['post_id'];
+        $user_name = $_SESSION['username'];
+        $comment = $_POST['comment'];
 
-    ]);
+        $insert = $conn->prepare("INSERT INTO comments (id_post_comment, user_name_comment, comment) VALUES (:id_post_comment, :user_name_comment, :comment)");
 
-    header("location: http://localhost:31337/project/posts/post.php?post_id=" . $id . "");
+        $insert->execute([
+            ':id_post_comment' => $id,
+            ':user_name_comment' => $user_name,
+            ':comment' => $comment,
+
+        ]);
+
+        header("location: http://localhost:31337/project/posts/post.php?post_id=" . $id . "");
+    }
 }
 
 //selecting the comments
@@ -112,62 +118,63 @@ $allComments = $comments->fetchAll(PDO::FETCH_OBJ);
     <div class="container my-5 py-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-12 col-lg-10 col-xl-8">
-                <h3 class="mb-5">Comments</h3>
-                <?php foreach($allComments as $comment) : ?>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-start align-items-center">
-
-                            <div>
-                                <h6 class="fw-bold text-primary"><?php echo $comment->user_name_comment; ?>
-                                <h8 class="p-3 text-black">(<?php echo date('M', strtotime($comment->created_at)) . ' ' . date('d', strtotime($comment->created_at)) . ', ' . date('Y', strtotime($comment->created_at)); ?>)</h8>
-                                
-                                </h6>
-
-                            </div>
-                        </div>
-
-                        <p class="mt-3 mb-4 pb-2">
-                        <?php echo $comment->comment; ?>
-                        </p>
-
-
-                        <hr class="my-4" />
-                        <?php endforeach; ?>
-
-                        <!-- <div class="d-flex flex-start align-items-center">
-                            <div>
-                                <h6 class="fw-bold text-primary">Lily Coleman<h8 class="p-3 text-black">(Jun 2020)</h8>
-                                </h6>
-
-                            </div>
-                        </div>
-
-                        <p class="mt-3 mb-4 pb-2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip consequat.
-                        </p> -->
-
-
+                <?php if (isset($_POST['submit']) and $_POST['comment'] == '') : ?>
+                    <div class="bg-danger alert alert-danger text-white">
+                        Write a comment first.
                     </div>
-                    <form method="POST" action="post.php?post_id=<?php echo $id; ?>">
+                <?php endif; ?>
+                <h3 class="mb-5">Comments</h3>
+                <?php foreach ($allComments as $comment) : ?>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-start align-items-center">
 
-                        <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                                <div>
+                                    <h6 class="fw-bold text-primary"><?php echo $comment->user_name_comment; ?>
+                                        <h8 class="p-3 text-black">(<?php echo date('M', strtotime($comment->created_at)) . ' ' . date('d', strtotime($comment->created_at)) . ', ' . date('Y', strtotime($comment->created_at)); ?>)</h8>
 
-                            <div class="d-flex flex-start w-100">
-
-                                <div class="form-outline w-100">
-                                    <textarea class="form-control" id="" placeholder="write message" rows="4" name="comment"></textarea>
+                                    </h6>
 
                                 </div>
                             </div>
-                            <div class="float-end mt-2 pt-1">
-                                <button type="submit" name="submit" class="btn btn-primary btn-sm mb-3">Post comment</button>
-                            </div>
+
+                            <p class="mt-3 mb-4 pb-2">
+                                <?php echo $comment->comment; ?>
+                            </p>
+
+
+                            <hr class="my-4" />
+
+
+
+
+
                         </div>
-                    </form>
-                </div>
+                    <?php endforeach; ?>
+                    <?php if (isset($_SESSION['username'])) : ?>
+
+                        <form method="POST" action="post.php?post_id=<?php echo $id; ?>">
+
+                            <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+
+                                <div class="d-flex flex-start w-100">
+
+                                    <div class="form-outline w-100">
+                                        <textarea class="form-control" id="" placeholder="write message" rows="4" name="comment"></textarea>
+
+                                    </div>
+                                </div>
+                                <div class="float-end mt-2 pt-1">
+                                    <button type="submit" name="submit" class="btn btn-primary btn-sm mb-3">Post comment</button>
+                                </div>
+                            </div>
+                        </form>
+                    <?php else : ?>
+                        <div class="bg-danger alert alert-danger text-white">
+                            Login or register to comment.
+                        </div>
+                    <?php endif; ?>
+                    </div>
             </div>
         </div>
     </div>
