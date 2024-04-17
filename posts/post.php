@@ -34,7 +34,7 @@ if (isset($_POST['submit']) and isset($_GET['post_id'])) {
 
     if ($_POST['comment'] == '') {
 
-        echo "<div class='d-none alert alert-danger text-white'>insert smth in the box</div>";
+        echo "<script>alert('Write a comment'); </script>";
     } else {
         $id = $_GET['post_id'];
         $user_name = $_SESSION['username'];
@@ -48,8 +48,9 @@ if (isset($_POST['submit']) and isset($_GET['post_id'])) {
             ':comment' => $comment,
 
         ]);
+        echo "<script>alert('Comment added and it will be forwarded to the admins'); </script>";
 
-        header("location: http://localhost:31337/project/posts/post.php?post_id=" . $id . "");
+        //header("location: http://localhost:31337/project/posts/post.php?post_id=" . $id . "");
     }
 }
 
@@ -118,39 +119,41 @@ $allComments = $comments->fetchAll(PDO::FETCH_OBJ);
     <div class="container my-5 py-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-12 col-lg-10 col-xl-8">
-                <?php if (isset($_POST['submit']) and $_POST['comment'] == '') : ?>
-                    <div class="bg-danger alert alert-danger text-white">
-                        Write a comment first.
-                    </div>
-                <?php endif; ?>
+                
                 <h3 class="mb-5">Comments</h3>
-                <?php foreach ($allComments as $comment) : ?>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex flex-start align-items-center">
+                <?php if (count($allComments) > 0) : ?>
+                    <?php foreach ($allComments as $comment) : ?>
+                        <div class="card">
 
-                                <div>
-                                    <h6 class="fw-bold text-primary"><?php echo $comment->user_name_comment; ?>
-                                        <h8 class="p-3 text-black">(<?php echo date('M', strtotime($comment->created_at)) . ' ' . date('d', strtotime($comment->created_at)) . ', ' . date('Y', strtotime($comment->created_at)); ?>)</h8>
+                            <div class="card-body">
+                                <div class="d-flex flex-start align-items-center">
 
-                                    </h6>
+                                    <div>
+                                        <h6 class="fw-bold text-primary"><?php echo $comment->user_name_comment; ?>
+                                            <h8 class="p-3 text-black">(<?php echo date('M', strtotime($comment->created_at)) . ' ' . date('d', strtotime($comment->created_at)) . ', ' . date('Y', strtotime($comment->created_at)); ?>)</h8>
 
+                                        </h6>
+
+                                    </div>
                                 </div>
+
+                                <p class="mt-3 mb-4 pb-2">
+                                    <?php echo $comment->comment; ?>
+                                </p>
+
+
+                                <hr class="my-4" />
+
+
+
+
+
                             </div>
-
-                            <p class="mt-3 mb-4 pb-2">
-                                <?php echo $comment->comment; ?>
-                            </p>
-
-
-                            <hr class="my-4" />
-
-
-
-
-
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <div class="text-center">No comments for this post, be the first comment!
                         </div>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                     <?php if (isset($_SESSION['username'])) : ?>
 
                         <form method="POST" action="post.php?post_id=<?php echo $id; ?>">
@@ -174,7 +177,7 @@ $allComments = $comments->fetchAll(PDO::FETCH_OBJ);
                             Login or register to comment.
                         </div>
                     <?php endif; ?>
-                    </div>
+                        </div>
             </div>
         </div>
     </div>
