@@ -10,8 +10,10 @@ if (isset($_GET['upd_id'])) {
 
   // sanitize
   if (!is_numeric($id)) {
-    header("Location: http://localhost:31337/project/404.php");
-    exit;
+    // header("Location: http://localhost:31337/project/404.php");
+    // exit;
+    echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+
   }
 
   // First query to fetch the existing post details
@@ -34,7 +36,9 @@ if (isset($_GET['upd_id'])) {
 
   // update data
   if ($_SESSION['user_id'] !== $rows->user_id) {
-    header('location: http://localhost:31337/project/404.php');
+    // header('location: http://localhost:31337/project/404.php');
+    echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+
   }
 
   // Second query
@@ -108,7 +112,8 @@ if (isset($_GET['upd_id'])) {
         $image_filename       = $_FILES['img']['name'];
         $temporary_image_path = $_FILES['img']['tmp_name'];
         $new_image_path       = file_upload_path($image_filename);
-        unlink("images/" . $rows->img . "");
+
+        // unlink("images/" . $rows->img . "");
 
 
         // Check if the image is valid, and if so, upload it
@@ -128,12 +133,8 @@ if (isset($_GET['upd_id'])) {
 
       ]);
 
-      // if (move_uploaded_file($_FILES['img']['tmp_name'], $dir)) {
-      //   header('location: http://localhost:31337/project/index.php');
-      // }
+      echo "<div class='alert alert-danger text-center role='alert'> Post updated successfully. </div>";
 
-      header('location: http://localhost:31337/project/index.php');
-      exit;
     }
   }
 } else {
@@ -142,6 +143,23 @@ if (isset($_GET['upd_id'])) {
 }
 
 ?>
+
+<?php if (!empty($rows->img)): ?>
+
+<div class="container mb-4">
+
+<!-- Image -->
+<div class="container mb-4">
+    <img src="images/<?php echo !empty($rows->img) ? $rows->img : 'cover.png'; ?>" alt="user"
+        width="100" class="">
+</div>
+
+<!-- Image Delete button -->
+<a href="http://localhost:31337/project/posts/delete_image.php?del_id=<?= $rows->id; ?>"
+    class="btn btn-danger text-center mx-3">Delete Image</a>
+</div>
+<?php endif; ?>
+
 
 <form method="POST" action="update.php?upd_id=<?php echo $id; ?>" enctype="multipart/form-data">
   <!-- Email input -->
@@ -167,7 +185,6 @@ if (isset($_GET['upd_id'])) {
     </select>
   </div>
 
-  <?php echo "<img src='images/" . $rows->img . "' width=300px height=300px> "; ?>
 
   <div class="form-outline mb-4">
     <input type="file" name="img" id="form2Example1" class="form-control" placeholder="image" />

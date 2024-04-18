@@ -88,8 +88,9 @@ if (isset($_POST['submit'])) {
 
 
     // Redirect after post creation
-    header('location: http://localhost:31337/project/index.php');
-    exit();
+    //header('location: http://localhost:31337/project/index.php');
+    //exit();
+    echo "<div class='alert alert-danger text-center role='alert'> Post created successfully. </div>";
   }
 }
 

@@ -8,7 +8,7 @@ if (isset($_GET['del_id'])) {
 
     // sanitize
     if (!is_numeric($id)) {
-        header("Location: http://localhost:31337/project/404.php");
+        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
         exit;
     }
 
@@ -19,7 +19,7 @@ if (isset($_GET['del_id'])) {
 
     
     if ($_SESSION['user_id'] !== $posts->user_id) {
-        header('location: http://localhost:31337/project/404.php');
+        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
     } else {
 
         $img = $posts->img;

@@ -9,8 +9,11 @@ if (isset($_GET['post_id'])) {
 
     // sanitize
     if (!is_numeric($id)) {
-        header("Location: http://localhost:31337/project/404.php");
-        exit;
+        // header("Location: http://localhost:31337/project/404.php");
+        // exit;
+        // echo "<div class='alert alert-danger text-center role='alert'> 404 </div>";
+        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+
     }
 
 
@@ -23,8 +26,11 @@ if (isset($_GET['post_id'])) {
 
     // Check if post with the given id exists
     if (!$post) {
-        header("Location: http://localhost:31337/project/404.php");
-        exit;
+        // header("Location: http://localhost:31337/project/404.php");
+        // exit;
+        //echo "<div class='alert alert-danger text-center role='alert'> 404 </div>";
+        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+
     }
 }
 
