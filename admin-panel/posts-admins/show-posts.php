@@ -8,9 +8,12 @@ if (!isset($_SESSION['adminname'])) {
   header("location: http://localhost:31337/project/admin-panel/admins/login-admins.php");
 }
 
-
-    $posts = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name, posts.status AS status FROM categories
-    JOIN posts ON categories.id = posts.category_id");
+$sort_by = isset($_GET['sort']) ? $_GET['sort'] : 'created_at'; 
+$posts = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name, posts.status AS status 
+                         FROM categories JOIN posts ON categories.id = posts.category_id
+                         ORDER BY $sort_by ASC"); 
+    // $posts = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.user_name AS user_name, posts.created_at AS created_at, categories.name AS name, posts.status AS status FROM categories
+    // JOIN posts ON categories.id = posts.category_id");
     $posts->execute();
     $rows = $posts->fetchAll(PDO::FETCH_OBJ);
 
@@ -22,6 +25,13 @@ if (!isset($_SESSION['adminname'])) {
     <div class="card">
       <div class="card-body">
         <h5 class="card-title mb-4 d-inline">Posts</h5>
+
+        <!-- Sorting buttons -->
+        <label>Sort by:</label>
+        <button onclick="sortPosts('created_at')">Oldest</button>
+        <button onclick="sortPosts('title')">Title</button>
+        <button onclick="sortPosts('name')">Category</button>
+
 
         <table class="table">
           <thead>
@@ -59,6 +69,11 @@ if (!isset($_SESSION['adminname'])) {
   </div>
 </div>
 
-
+<script>
+  function sortPosts(sortBy) {
+    // 현재 페이지 URL에 정렬 기준을 추가하여 새로고침합니다.
+    window.location.href = window.location.pathname + '?sort=' + sortBy;
+  }
+</script>
 
 <?php require "../layouts/footer.php"; ?>
