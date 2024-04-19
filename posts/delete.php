@@ -8,7 +8,7 @@ if (isset($_GET['del_id'])) {
 
     // sanitize
     if (!is_numeric($id)) {
-        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+        echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
         exit;
     }
 
@@ -19,13 +19,13 @@ if (isset($_GET['del_id'])) {
 
     
     if ($_SESSION['user_id'] !== $posts->user_id) {
-        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+        echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
     } else {
 
         $img = $posts->img;
         if (!empty($img)) { // if images exist
 
-            unlink('C:/xampp/htdocs/project/posts/images' . $img);
+            unlink('images' . $img);
         }
 
         $delete = $conn->prepare("DELETE FROM posts WHERE id = :id");
@@ -36,7 +36,7 @@ if (isset($_GET['del_id'])) {
     echo "<div class='alert alert-danger text-center role='alert'> Successfully deleted. </div>";
     // header('location: http://localhost:31337/project/index.php');
 } else {
-    header('location: http://localhost:31337/project/404.php');
+    header('location: ../404.php');
 }
 
 ?>

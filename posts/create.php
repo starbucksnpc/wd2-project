@@ -97,6 +97,7 @@ if (isset($_POST['submit'])) {
 
 ?>
 
+<link href="../project/css/styles.css" rel="stylesheet" />
 
 <form method="POST" action="create.php" enctype="multipart/form-data">
   <!-- Email input -->

@@ -69,11 +69,7 @@ $posts = $conn->prepare("SELECT posts.id AS id, posts.title AS title, posts.user
   </div>
 </div>
 
-<script>
-  function sortPosts(sortBy) {
-    // 현재 페이지 URL에 정렬 기준을 추가하여 새로고침합니다.
-    window.location.href = window.location.pathname + '?sort=' + sortBy;
-  }
-</script>
+<script src="../../js/sort.js"></script>
+
 
 <?php require "../layouts/footer.php"; ?>

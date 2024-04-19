@@ -10,7 +10,7 @@ if (isset($_GET['prof_id'])) {
 
   // sanitize
   if (!is_numeric($id)) {
-    header("Location: http://localhost/wd2/Final%20Project%20CMS/CMS%20NooBtok/404.php");
+    echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
     exit;
   }
 
@@ -22,7 +22,7 @@ if (isset($_GET['prof_id'])) {
   // rows not found
 
   if (!$rows) {
-    header("Location: http://localhost/wd2/Final%20Project%20CMS/CMS%20NooBtok/404.php");
+    echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
     exit;
   }
 
@@ -34,7 +34,7 @@ if (isset($_GET['prof_id'])) {
 
   // update data
   if ($_SESSION['user_id'] !== $rows->id) {
-    header('location: http://localhost:31337/project/index.php');
+    header('location: ../index.php');
   }
 
   // Second query
@@ -62,11 +62,11 @@ if (isset($_GET['prof_id'])) {
       ]);
 
 
-      header('location: http://localhost:31337/project/users/profile.php?prof_id='.$_SESSION['user_id'].'');
+      header('location: profile.php?prof_id='.$_SESSION['user_id'].'');
     }
   }
 } else {
-    header('location: http://localhost:31337/project/404.php');
+  echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
 }
 
 ?>

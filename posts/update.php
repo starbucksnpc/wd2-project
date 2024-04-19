@@ -12,7 +12,7 @@ if (isset($_GET['upd_id'])) {
   if (!is_numeric($id)) {
     // header("Location: http://localhost:31337/project/404.php");
     // exit;
-    echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+    echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
 
   }
 
@@ -22,11 +22,6 @@ if (isset($_GET['upd_id'])) {
   $select->execute();
   $rows = $select->fetch(PDO::FETCH_OBJ);
 
-  // rows not found
-  // if (!$rows) {
-  //   header("Location: http://localhost:31337/project/404.php");
-  //   exit;
-  // }
 
   //categories
   $categories = $conn->query("SELECT * FROM categories");
@@ -37,7 +32,7 @@ if (isset($_GET['upd_id'])) {
   // update data
   if ($_SESSION['user_id'] !== $rows->user_id) {
     // header('location: http://localhost:31337/project/404.php');
-    echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+    echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
 
   }
 
@@ -89,6 +84,7 @@ if (isset($_GET['upd_id'])) {
         return $file_extension_is_valid && $mime_type_is_valid;
       }
 
+      
 
 
       $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -138,7 +134,7 @@ if (isset($_GET['upd_id'])) {
     }
   }
 } else {
-  header('location: http://localhost:31337/project/404.php');
+  header('location: ../404.php');
   exit;
 }
 
@@ -155,7 +151,7 @@ if (isset($_GET['upd_id'])) {
 </div>
 
 <!-- Image Delete button -->
-<a href="http://localhost:31337/project/posts/delete_image.php?del_id=<?= $rows->id; ?>"
+<a href="delete_image.php?del_id=<?= $rows->id; ?>"
     class="btn btn-danger text-center mx-3">Delete Image</a>
 </div>
 <?php endif; ?>

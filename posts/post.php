@@ -12,7 +12,7 @@ if (isset($_GET['post_id'])) {
         // header("Location: http://localhost:31337/project/404.php");
         // exit;
         // echo "<div class='alert alert-danger text-center role='alert'> 404 </div>";
-        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+        echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
 
     }
 
@@ -29,7 +29,7 @@ if (isset($_GET['post_id'])) {
         // header("Location: http://localhost:31337/project/404.php");
         // exit;
         //echo "<div class='alert alert-danger text-center role='alert'> 404 </div>";
-        echo "<meta http-equiv='refresh' content='0;url=http://localhost:31337/project/404.php'>";
+        echo "<meta http-equiv='refresh' content='0;url=../404.php'>";
 
     }
 }
@@ -113,7 +113,7 @@ $allComments = $comments->fetchAll(PDO::FETCH_OBJ);
                         </p> -->
                 <?php if (isset($_SESSION['user_id']) and $_SESSION['user_id'] == $post->user_id) : ?>
 
-                    <a href="http://localhost:31337/project/posts/delete.php?del_id=<?php echo $post->id; ?>" class="btn btn-danger text-center float-end">Delete </a>
+                    <a href="delete.php?del_id=<?php echo $post->id; ?>" class="btn btn-danger text-center float-end">Delete </a>
 
                     <a href="update.php?upd_id=<?php echo $post->id; ?>" class="btn btn-warning text-center">Update </a>
                 <?php endif; ?>
